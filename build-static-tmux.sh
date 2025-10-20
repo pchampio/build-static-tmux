@@ -15,7 +15,7 @@ COLOR_END="\033[0m"
 PGM="${0##*/}" # Program basename
 
 # Scriptversion
-VERSION=3.5d
+VERSION=git
 
 # How many lines of the error log should be displayed
 LOG_LINES=50
@@ -42,7 +42,7 @@ TMUX_BIN="tmux.${OS}-${ARCH}"
 ######################################
 ###### BEGIN VERSION DEFINITION ######
 ######################################
-TMUX_VERSION=3.5a
+TMUX_VERSION=master
 MUSL_VERSION=1.2.5
 NCURSES_VERSION=6.5
 LIBEVENT_VERSION=2.1.12
@@ -55,9 +55,6 @@ UPX_VERSION=5.0.1
 TMUX_STATIC_HOME="${TMUX_STATIC_HOME:-/tmp/tmux-static}"
 
 LOG_DIR="${TMUX_STATIC_HOME}/log"
-
-TMUX_ARCHIVE="tmux-${TMUX_VERSION}.tar.gz"
-TMUX_URL="https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}"
 
 MUSL_ARCHIVE="musl-${MUSL_VERSION}.tar.gz"
 MUSL_URL="https://musl.libc.org/releases/"
@@ -394,12 +391,12 @@ LOG_FILE="tmux-${TMUX_VERSION}.log"
 cd ${TMUX_STATIC_HOME}/src || exit 1
 if [ ! -f ${TMUX_ARCHIVE} ]; then
     printf "Downloading..."
-    wget --no-verbose ${TMUX_URL}/${TMUX_ARCHIVE} > ${LOG_DIR}/${LOG_FILE} 2>&1
+    wget --no-verbose "https://github.com/tmux/tmux/archive/refs/heads/master.zip" > ${LOG_DIR}/${LOG_FILE} 2>&1
     checkResult $?
 fi
 
 printf "Extracting...."
-tar xzf ${TMUX_ARCHIVE}
+unzip master.zip
 checkResult $?
 
 cd tmux-${TMUX_VERSION} || exit 1
@@ -407,6 +404,7 @@ cd tmux-${TMUX_VERSION} || exit 1
 printf "Configuring..."
 ./configure --prefix=${TMUX_STATIC_HOME} \
     --enable-static \
+	--enable-sixel \
     --includedir="${TMUX_STATIC_HOME}/include" \
     --libdir="${TMUX_STATIC_HOME}/lib" \
     CFLAGS="-I${TMUX_STATIC_HOME}/include" \
