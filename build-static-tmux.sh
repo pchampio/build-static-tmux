@@ -159,7 +159,7 @@ checkResult ()
     else
         printf "%b\n" "${RED}[ERROR]${COLOR_END}"
         echo ""
-        if [ ${} = 0 ]; then
+        if [ ${DUMP_LOG_ON_ERROR} = 0 ]; then
             echo "Check Buildlog in ${LOG_DIR}/${LOG_FILE}"
         else
             echo "last ${LOG_LINES} from ${LOG_DIR}/${LOG_FILE}:"
