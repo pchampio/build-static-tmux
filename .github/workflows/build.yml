@@ -54,5 +54,4 @@ jobs:
           replacesArtifacts: true
           allowUpdates: true
           bodyFile: "README.md"
-          name: "github"
           token: ${{ secrets.GITHUB_TOKEN }}
