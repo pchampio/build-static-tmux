@@ -469,8 +469,10 @@ echo "----------------"
 echo "Standard tmux binary:   ${TMUX_STATIC_HOME}/bin/${TMUX_BIN}.gz"
 echo "Stripped tmux binary:   ${TMUX_STATIC_HOME}/bin/${TMUX_BIN}.stripped.gz"
 
-gzip ${TMUX_STATIC_HOME}/bin/${TMUX_BIN}
-gzip ${TMUX_STATIC_HOME}/bin/${TMUX_BIN}.stripped
+cp -f ${TMUX_STATIC_HOME}/bin/${TMUX_BIN} ${TMUX_STATIC_HOME}/bin/tmux
+gzip -c ${TMUX_STATIC_HOME}/bin/tmux > ${TMUX_BIN}
+cp -f ${TMUX_STATIC_HOME}/bin/${TMUX_BIN}.stripped ${TMUX_STATIC_HOME}/bin/tmux
+gzip -c ${TMUX_STATIC_HOME}/bin/${TMUX_BIN}.stripped > ${TMUX_BIN}.stripped
 
 if [ -n "${USE_UPX}" ] && [ ${USE_UPX} = 1 ]; then
     echo "Compressed tmux binary: ${TMUX_STATIC_HOME}/bin/${TMUX_BIN}.upx.gz"
