@@ -240,8 +240,8 @@ printf "gcc..........."
 programExists "gcc"
 checkResult $?
 printf "yacc.........."
-programExists "yacc"
-checkResult $?
+# programExists "yacc"
+# checkResult $?
 
 echo ""
 printf "%b\n" "${BLUE}*********************************************${COLOR_END}"
@@ -401,9 +401,11 @@ checkResult $?
 cd tmux-${TMUX_VERSION} || exit 1
 
 printf "Configuring..."
+
+sh autogen.sh
 ./configure --prefix=${TMUX_STATIC_HOME} \
     --enable-static \
-	--enable-sixel \
+    --enable-sixel \
     --includedir="${TMUX_STATIC_HOME}/include" \
     --libdir="${TMUX_STATIC_HOME}/lib" \
     CFLAGS="-I${TMUX_STATIC_HOME}/include" \
