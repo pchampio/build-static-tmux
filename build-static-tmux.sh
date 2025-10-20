@@ -97,6 +97,7 @@ get_args()
     done
     shift $((OPTIND - 1))
 }
+DUMP_LOG_ON_ERROR=1
 
 #
 # print valid options
@@ -158,7 +159,7 @@ checkResult ()
     else
         printf "%b\n" "${RED}[ERROR]${COLOR_END}"
         echo ""
-        if [ ${DUMP_LOG_ON_ERROR} = 0 ]; then
+        if [ ${} = 0 ]; then
             echo "Check Buildlog in ${LOG_DIR}/${LOG_FILE}"
         else
             echo "last ${LOG_LINES} from ${LOG_DIR}/${LOG_FILE}:"
@@ -198,7 +199,7 @@ programExists ()
 # compress the resulting executable with UPX
 USE_UPX=${USE_UPX:-0}
 # print the last x lines of the log to stdout
-DUMP_LOG_ON_ERROR=${DUMP_LOG_ON_ERROR:-0}
+DUMP_LOG_ON_ERROR=1
 
 get_args "$@"
 
@@ -389,11 +390,9 @@ echo "------------------"
 LOG_FILE="tmux-${TMUX_VERSION}.log"
 
 cd ${TMUX_STATIC_HOME}/src || exit 1
-if [ ! -f ${TMUX_ARCHIVE} ]; then
     printf "Downloading..."
     wget --no-verbose "https://github.com/tmux/tmux/archive/refs/heads/master.zip" > ${LOG_DIR}/${LOG_FILE} 2>&1
     checkResult $?
-fi
 
 printf "Extracting...."
 unzip master.zip
